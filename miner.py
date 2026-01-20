@@ -20,7 +20,7 @@ my_daily_media = {"value": 0, "reset_time": datetime.datetime.now() + datetime.t
 current_images_number = 0
 current_dataset_size = 0
 
-# ---------------- Logging ----------------
+# Logging
 def log_incomplete_species(species_name, images_downloaded, missing_images):
     log_dir = r"D:\inat_downloader\__results"
     os.makedirs(log_dir, exist_ok=True)
@@ -43,7 +43,7 @@ def log_exception(species_name, obs_id, exception_msg):
             writer.writerow(['species_name', 'observation_id', 'exception'])
         writer.writerow([species_name, obs_id, exception_msg])
 
-# ---------------- Rate Evaluation ----------------
+# Rate Evaluation
 def evaluate_query_rate():
     if my_daily_queries["value"] > MAX_QUERIES_PER_DAY:
         print(f"WARNING: Daily query limit reached ({my_daily_queries['value']}) — continuing anyway.")
@@ -61,7 +61,7 @@ def evaluate_media_rate():
         my_daily_media["value"] = 0
         my_daily_media["reset_time"] = datetime.datetime.now() + datetime.timedelta(hours=24)
 
-# ---------------- Image Download ----------------
+# Image Download
 async def download_image(session: ClientSession, image_url, file_path):
     global current_images_number, current_dataset_size
     try:
@@ -82,7 +82,7 @@ async def download_image(session: ClientSession, image_url, file_path):
     except Exception as e:
         print(f"ERROR downloading {image_url}: {e}")
 
-# ---------------- Download Observations ----------------
+# Download Observations
 async def download_observations(species_name, observations, image_size, session, target_images):
     global current_images_number
     species_folder = os.path.join(
@@ -136,7 +136,7 @@ async def download_observations(species_name, observations, image_size, session,
                 log_exception(species_name, obs.get("id", "n/a"), str(e))
                 print(f"WARNING: Skipping observation {obs.get('id', 'n/a')} due to exception: {e}")
 
-# ---------------- Fetch Observations ----------------
+# Fetch Observations
 async def fetch_observations(session, species, quality, license_str, start_id, per_page, lat=None, lng=None, radius=None):
     url = (
         f"https://api.inaturalist.org/v1/observations?"
@@ -150,7 +150,7 @@ async def fetch_observations(session, species, quality, license_str, start_id, p
         data = await resp.json()
         return data.get("results", [])
 
-# ---------------- Main ----------------
+# Main
 async def main():
     parser = argparse.ArgumentParser(description="Download images from iNaturalist")
     parser.add_argument("-q", "--quality", default="research", choices=["research", "any"])
@@ -217,7 +217,7 @@ async def main():
             else:
                 print(f"INFO: Images and metadata download for {species['name']} complete with full set.")
 
-    print("\n------------------ SCRIPT TERMINATED SUCCESSFULLY ------------------\n")
+    print("\nSCRIPT TERMINATED SUCCESSFULLY\n")
 
 if __name__ == "__main__":
     asyncio.run(main())
