@@ -158,7 +158,7 @@ async def main():
     parser.add_argument("-l", "--license", default="any")
     args = parser.parse_args()
 
-    print("\n-------------------------- SCRIPT STARTED --------------------------\n")
+    print("\nSCRIPT STARTEDn")
 
     my_species = []
     if os.path.exists("species.csv"):
