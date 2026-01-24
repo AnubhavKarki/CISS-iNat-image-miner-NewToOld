@@ -1,4 +1,4 @@
-# iNaturalist Image Downloader
+# iNaturalist Image Downloader (Recent to Oldest)
 
 Async Python tool to download species images and metadata from iNaturalist API with rate limiting and CSV logging.
 
